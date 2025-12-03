@@ -5,21 +5,19 @@ class Solution:
 
         freq_dict = dict()
 
-        for point in points:
-
-            if(point[1] not in freq_dict):
-                freq_dict[point[1]] = 1
+        for x, y in points:
+            if y not in freq_dict:
+                freq_dict[y] = 1
             else:
-                freq_dict[point[1]] += 1
+                freq_dict[y] += 1
         
-        for y, freq in freq_dict.items():
-            freq_dict[y] = comb(freq, 2)
-        
-        ans = 0
-        ps = 0
+        res = 0
+        prevHorizontalLines = 0
 
-        for e in freq_dict.values():
-            ans = (ans + e * ps) % mod 
-            ps = (ps + e) % mod 
-        
-        return ans 
+        for key, val in freq_dict.items():
+            cnt = val
+            horizontalLines = cnt * (cnt - 1) // 2 #equal to ncr 
+            res += horizontalLines * prevHorizontalLines
+            prevHorizontalLines += horizontalLines
+
+        return res % mod
