@@ -1,25 +1,25 @@
 class Solution:
-    def minDeletionSize(self, strs):
-        n, m = len(strs), len(strs[0])
-        sorted_pairs = [False] * (n - 1)
-        delCount = 0
+    def minDeletionSize(self, strs: List[str]) -> int:
+        res = 0
+        rows = len(strs)
+        cols = len(strs[0])
 
-        for col in range(m):
-            bad = False
-            for i in range(n - 1):
-                if not sorted_pairs[i] and strs[i][col] > strs[i + 1][col]:
-                    bad = True
+        alreadySorted = [False] * (rows - 1)
+
+        for c in range(cols):
+            flag = True
+
+            for r in range(rows - 1):
+                if not alreadySorted[r] and strs[r][c] > strs[r + 1][c]:
+                    res += 1
+                    flag = False
                     break
 
-            if bad:
-                delCount += 1
+            if not flag:
                 continue
 
-            for i in range(n - 1):
-                if not sorted_pairs[i] and strs[i][col] < strs[i + 1][col]:
-                    sorted_pairs[i] = True
+            for r in range(rows - 1):
+                if strs[r][c] < strs[r + 1][c]:
+                    alreadySorted[r] = True
 
-            if all(sorted_pairs):
-                break
-
-        return delCount
+        return res
