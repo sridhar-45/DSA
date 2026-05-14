@@ -1,11 +1,17 @@
+from collections import Counter
 class Solution:
     def isGood(self, nums: List[int]) -> bool:
-        n=len(nums)
-        nums.sort()
-        for i in range(n-1):
-            if nums[i]!=i+1:
+        n = len(nums)
+        if n == 1:
+            return False
+            
+        freq = Counter(nums)
+        for i in range(1, n):
+            if i not in freq:
                 return False
-        if nums[n-1]==n-1:
-            return True
-        else:
-            return False        
+            elif i != (n-1) and freq[i] > 1:
+                return False
+            elif i == (n-1) and freq[i] != 2:
+                return False
+            
+        return True
